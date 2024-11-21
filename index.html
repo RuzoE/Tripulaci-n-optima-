@@ -10,13 +10,13 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <!-- Enlace a estilos personalizados -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="static/css/styles.css">
 </head>
 <body>
 
     <header class="header-logo">
         <div class="logo-container">
-            <img src="{{ url_for('static', filename='images/logo2.png') }}" alt="American Airlines Logo" class="logo">
+            <img src="static/images/logo2.png" alt="American Airlines Logo" class="logo">
         </div>
     </header>
 
@@ -32,7 +32,7 @@
                     <div class="col-md-8 col-lg-6 d-flex flex-column align-items-center">
                         <!-- Botón de información general -->
                        <button type="button" class="btn-info-logo" data-bs-toggle="modal" data-bs-target="#infoModal" aria-label="Información General">
-                        <img src="{{ url_for('static', filename='images/logo.4.png') }}" alt="Información">
+                        <img src="static/images/logo.4.png" alt="Información">
                         </button>
 
                         <!-- Botón de ayuda -->
@@ -215,6 +215,6 @@
         integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 
     <!-- Enlace al archivo JavaScript externo -->
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="static/js/script.js"></script>
 </body>
 </html>
