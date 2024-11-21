@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimización de Tripulación</title>
+
+    <!-- Enlace a Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Enlace a estilos personalizados -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <header class="header-logo">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='images/logo2.png') }}" alt="American Airlines Logo" class="logo">
+        </div>
+    </header>
+
+    <div class="container-fluid main-container">
+        <div class="text-center">
+            <!-- Título con estilo de botón en color azul difuminado -->
+            <h1 class="btn-title">Optimización de Asignación de Tripulación</h1>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="row justify-content-center mt-3">
+                    <div class="col-md-8 col-lg-6 d-flex flex-column align-items-center">
+                        <!-- Botón de información general -->
+                       <button type="button" class="btn-info-logo" data-bs-toggle="modal" data-bs-target="#infoModal" aria-label="Información General">
+                            <img src="{{ url_for('static', filename='images/logo.4.png') }}" alt="Información">
+                        </button>
+
+                        <!-- Botón de ayuda -->
+                        <button type="button" class="btn-info" data-bs-toggle="modal" data-bs-target="#helpModal" aria-label="Ayuda">
+                        ?
+                        </button>
+                    </div>
+                </div>
+                <!-- Formulario de optimización de tripulación con borde más delineado -->
+                <form id="optimizar-form" class="form-section">
+                    <h3 class="text-center mb-4">Ingrese los datos de los vuelos</h3>
+
+                    <div class="mb-3">
+                        <label for="vuelos_cortos" class="form-label">Vuelos Cortos:</label>
+                        <input type="number" class="form-control" id="vuelos_cortos" name="vuelos_cortos" value="100" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="vuelos_medios" class="form-label">Vuelos Medios:</label>
+                        <input type="number" class="form-control" id="vuelos_medios" name="vuelos_medios" value="70" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="vuelos_largos" class="form-label">Vuelos Largos:</label>
+                        <input type="number" class="form-control" id="vuelos_largos" name="vuelos_largos" value="30" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="duracion_corto" class="form-label">Duración de Vuelos Cortos (horas):</label>
+                        <input type="number" class="form-control" id="duracion_corto" name="duracion_corto" value="2" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="duracion_medio" class="form-label">Duración de Vuelos Medios (horas):</label>
+                        <input type="number" class="form-control" id="duracion_medio" name="duracion_medio" value="5" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="duracion_largo" class="form-label">Duración de Vuelos Largos (horas):</label>
+                        <input type="number" class="form-control" id="duracion_largo" name="duracion_largo" value="10" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="costo_piloto" class="form-label">Costo por Hora de Pilotos:</label>
+                        <input type="number" class="form-control" id="costo_piloto" name="costo_piloto" value="100" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="costo_cabina" class="form-label">Costo por Hora de Personal de Cabina:</label>
+                        <input type="number" class="form-control" id="costo_cabina" name="costo_cabina" value="60" required>
+                    </div>
+
+                    <button type="button" class="btn btn-animado w-100" onclick="enviarFormulario()">Calcular Asignación Óptima</button>
+                </form>
+            </div>
+        </div>
+
+<!-- Modal de ayuda -->
+<div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="helpModalLabel">Instrucciones</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Siga estas instrucciones para llenar los datos:</p>
+                <ul>
+                    <li><strong>Todos los campos son obligatorios:</strong> No deje ningún campo vacío.</li>
+                    <li><strong>Valores Positivos:</strong> Ingrese únicamente números positivos en todos los campos.</li>
+                    <li>
+                        <strong>Duración de vuelos:</strong>
+                        Especifique la duración en horas según el tipo de vuelo:
+                        <ul>
+                            <li><strong>Vuelos Cortos:</strong> Menos de 3 horas.</li>
+                            <li><strong>Vuelos Medios:</strong> Entre 3 y 6 horas.</li>
+                            <li><strong>Vuelos Largos:</strong> Más de 6 horas.</li>
+                        </ul>
+                        <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#detailsModal">
+                            Ver más detalles
+                        </button>
+                    </li>
+                    <li>
+                        <strong>Costos por hora:</strong>
+                        Ingrese valores entre 10 y 500 en los campos de costos por hora para pilotos y personal de cabina.
+                    </li>
+                    <li>No use caracteres especiales como comas, puntos o símbolos de moneda.</li>
+                    <li>Si no tiene un valor para un campo, ingrese <code>0</code>.</li>
+                    <li>Presione "Calcular Asignación Óptima" para obtener los resultados.</li>
+                </ul>
+                <p>Nota: Si ingresa valores fuera de los rangos recomendados, el sistema mostrará una alerta con los errores detectados.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de detalles -->
+<div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailsModalLabel">Detalles sobre la duración de vuelos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Clasificación de vuelos según duración:</strong></p>
+                <ul>
+                    <li><strong>Vuelos Cortos:</strong> Menos de 3 horas. Conectan ciudades cercanas, como vuelos domésticos o regionales. Ejemplo: Ciudad de México a Guadalajara.</li>
+                    <li><strong>Vuelos Medios:</strong> Entre 3 y 6 horas. Conectan ciudades más distantes, a menudo vuelos internacionales cortos. Ejemplo: Los Ángeles a Nueva York.</li>
+                    <li><strong>Vuelos Largos:</strong> Más de 6 horas. Incluyen vuelos internacionales de larga distancia o transoceánicos. Ejemplo: Tokio a Los Ángeles.</li>
+                </ul>
+                <p>Estos criterios son importantes para planificar tripulaciones, estimar costos y garantizar operaciones eficientes.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Información General -->
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="infoModalLabel">Beneficios de la Aplicación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Esta herramienta ha sido diseñada para ayudar a las aerolíneas a optimizar la asignación de tripulaciones, 
+                    garantizando eficiencia operativa y reducción de costos.
+                </p>
+                <p><strong>Beneficios principales:</strong></p>
+                <ul>
+                    <li>
+                        <strong>Optimización de Recursos:</strong> Asigna tripulaciones según las necesidades de cada tipo de vuelo 
+                        (corto, medio o largo), maximizando la productividad del equipo.
+                    </li>
+                    <li>
+                        <strong>Reducción de Costos:</strong> Permite calcular costos precisos basados en datos ingresados, ayudando a 
+                        las aerolíneas a tomar decisiones informadas.
+                    </li>
+                    <li>
+                        <strong>Facilidad de Uso:</strong> Con una interfaz clara y amigable, es fácil ingresar datos y obtener resultados rápidamente.
+                    </li>
+                    <li>
+                        <strong>Resultados Personalizados:</strong> Genera resultados ajustados a las necesidades específicas de la aerolínea.
+                    </li>
+                </ul>
+                <p>
+                    Con esta aplicación, las aerolíneas pueden mejorar sus operaciones y garantizar un mejor aprovechamiento de sus recursos, 
+                    impactando positivamente en su eficiencia y rentabilidad.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        <!-- Sección de resultados con fondo azul degradado -->
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-8 col-lg-6 result-section">
+                <h3 class="text-center">Resultado:</h3>
+                <pre id="resultado"></pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+    <!-- Enlace al archivo JavaScript externo -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
