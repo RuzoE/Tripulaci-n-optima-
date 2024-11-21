@@ -17,7 +17,7 @@ async function enviarFormulario() {
     }
 
     try {
-        const response = await fetch('http://127.0.0.1:5000/optimizar', {
+        const response = await fetch('https://tripulacion-optima.onrender.com/optimizar', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
