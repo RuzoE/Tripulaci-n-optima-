@@ -28,61 +28,81 @@
         
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6">
-                <div class="row justify-content-center mt-3">
-                    <div class="col-md-8 col-lg-6 d-flex flex-column align-items-center">
-                        <!-- Botón de información general -->
-                       <button type="button" class="btn-info-logo" data-bs-toggle="modal" data-bs-target="#infoModal" aria-label="Información General">
-                        <img src="{{ url_for('static', filename='images/logo.4.png') }}" alt="Información">
-                        </button>
+                 <!-- Botón de información general -->
+                 <button type="button" class="btn-info-logo" data-bs-toggle="modal" data-bs-target="#infoModal" aria-label="Información General">
+                     <img src="{{ url_for('static', filename='images/logo.4.png') }}" alt="Información">
+                 </button>
+                    
+                 <!-- Botón de ayuda -->
+                 <button type="button" class="btn-info" data-bs-toggle="modal" data-bs-target="#helpModal" aria-label="Ayuda">
+                     ?
+                 </button>
 
-                        <!-- Botón de ayuda -->
-                        <button type="button" class="btn-info" data-bs-toggle="modal" data-bs-target="#helpModal" aria-label="Ayuda">
-                        ?
-                        </button>
-                    </div>
-                </div>
-                <!-- Formulario de optimización de tripulación con borde más delineado -->
                 <form id="optimizar-form" class="form-section">
                     <h3 class="text-center mb-4">Ingrese los datos de los vuelos</h3>
 
                     <div class="mb-3">
                         <label for="vuelos_cortos" class="form-label">Vuelos Cortos:</label>
                         <input type="number" class="form-control" id="vuelos_cortos" name="vuelos_cortos" value="100" required>
+                        <small class="form-text text-muted">
+                            Ingrese la cantidad de vuelos cortos (máximo 150).
+                        </small>
                     </div>
 
                     <div class="mb-3">
                         <label for="vuelos_medios" class="form-label">Vuelos Medios:</label>
                         <input type="number" class="form-control" id="vuelos_medios" name="vuelos_medios" value="70" required>
+                        <small class="form-text text-muted">
+                            Ingrese la cantidad de vuelos medios (máximo 100).
+                        </small>
                     </div>
 
                     <div class="mb-3">
                         <label for="vuelos_largos" class="form-label">Vuelos Largos:</label>
                         <input type="number" class="form-control" id="vuelos_largos" name="vuelos_largos" value="30" required>
+                        <small class="form-text text-muted">
+                            Ingrese la cantidad de vuelos largos (máximo 50).
+                        </small>
                     </div>
 
                     <div class="mb-3">
                         <label for="duracion_corto" class="form-label">Duración de Vuelos Cortos (horas):</label>
                         <input type="number" class="form-control" id="duracion_corto" name="duracion_corto" value="2" required>
+                        <small class="form-text text-muted">
+                            Ingrese la duración en horas (máximo 3 horas).
+                        </small>
                     </div>
 
                     <div class="mb-3">
                         <label for="duracion_medio" class="form-label">Duración de Vuelos Medios (horas):</label>
                         <input type="number" class="form-control" id="duracion_medio" name="duracion_medio" value="5" required>
+                        <small class="form-text text-muted">
+                            Ingrese la duración en horas (entre 3 y 6 horas).
+                        </small>
                     </div>
 
                     <div class="mb-3">
                         <label for="duracion_largo" class="form-label">Duración de Vuelos Largos (horas):</label>
                         <input type="number" class="form-control" id="duracion_largo" name="duracion_largo" value="10" required>
+                        <small class="form-text text-muted">
+                            Ingrese la duración en horas (entre 6 y 20 horas).
+                        </small>
                     </div>
 
                     <div class="mb-3">
                         <label for="costo_piloto" class="form-label">Costo por Hora de Pilotos:</label>
                         <input type="number" class="form-control" id="costo_piloto" name="costo_piloto" value="100" required>
+                        <small class="form-text text-muted">
+                            Ingrese el costo por hora (entre 10 y 500).
+                        </small>
                     </div>
 
                     <div class="mb-3">
                         <label for="costo_cabina" class="form-label">Costo por Hora de Personal de Cabina:</label>
                         <input type="number" class="form-control" id="costo_cabina" name="costo_cabina" value="60" required>
+                        <small class="form-text text-muted">
+                            Ingrese el costo por hora (entre 10 y 500).
+                        </small>
                     </div>
 
                     <button type="button" class="btn btn-animado w-100" onclick="enviarFormulario()">Calcular Asignación Óptima</button>
@@ -104,14 +124,26 @@
                     <li><strong>Todos los campos son obligatorios:</strong> No deje ningún campo vacío.</li>
                     <li><strong>Valores Positivos:</strong> Ingrese únicamente números positivos en todos los campos.</li>
                     <li>
+                        <strong>Cantidad de vuelos:</strong>
+                        Especifique la cantidad de vuelos según el tipo:
+                        <ul>
+                            <li><strong>Vuelos Cortos:</strong> Máximo 150 vuelos.</li>
+                            <li><strong>Vuelos Medios:</strong> Máximo 100 vuelos.</li>
+                            <li><strong>Vuelos Largos:</strong> Máximo 50 vuelos.</li>
+                        </ul>
+                        <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#detailsCantidadModal">
+                            Ver más detalles
+                        </button>
+                    </li>
+                    <li>
                         <strong>Duración de vuelos:</strong>
                         Especifique la duración en horas según el tipo de vuelo:
                         <ul>
                             <li><strong>Vuelos Cortos:</strong> Menos de 3 horas.</li>
                             <li><strong>Vuelos Medios:</strong> Entre 3 y 6 horas.</li>
-                            <li><strong>Vuelos Largos:</strong> Más de 6 horas.</li>
+                            <li><strong>Vuelos Largos:</strong> Entre 6 y 20 horas.</li>
                         </ul>
-                        <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#detailsModal">
+                        <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#detailsDuracionModal">
                             Ver más detalles
                         </button>
                     </li>
@@ -132,16 +164,58 @@
     </div>
 </div>
 
-<!-- Modal de detalles -->
-<div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<!-- Modal de detalles sobre la cantidad de vuelos -->
+<div class="modal fade" id="detailsCantidadModal" tabindex="-1" aria-labelledby="detailsCantidadModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-custom-width">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="detailsModalLabel">Detalles sobre la duración de vuelos</h5>
+                <h5 class="modal-title" id="detailsCantidadModalLabel">Detalles sobre la cantidad de vuelos</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p><strong>Clasificación de vuelos según duración:</strong></p>
+                <p>La cantidad de vuelos por tipo está definida para reflejar escenarios reales de operación en aerolíneas:</p>
+                <ol>
+                    <li><strong>Vuelos Cortos (domésticos o regionales):</strong>
+                        <ul>
+                            <li>Los vuelos cortos suelen ser los más frecuentes en rutas domésticas o regionales.</li>
+                            <li><strong>Cantidad fija:</strong> 100 vuelos diarios.</li>
+                            <li><strong>Ejemplo:</strong> Rutas como Ciudad de México a Monterrey.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Vuelos Medianos (internacionales cercanos o de rango medio):</strong>
+                        <ul>
+                            <li>Representan rutas internacionales cortas o domésticas más largas.</li>
+                            <li><strong>Cantidad fija:</strong> 70 vuelos diarios.</li>
+                            <li><strong>Ejemplo:</strong> Rutas como Bogotá a Miami.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Vuelos Largos (internacionales de largo alcance):</strong>
+                        <ul>
+                            <li>Son los menos frecuentes debido a su complejidad operativa.</li>
+                            <li><strong>Cantidad fija:</strong> 30 vuelos diarios.</li>
+                            <li><strong>Ejemplo:</strong> Rutas como Tokio a Londres.</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Estas cantidades representan un ejemplo realista de operaciones diarias en aerolíneas comerciales internacionales, y se ajustan para optimizar la planificación de recursos.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de detalles sobre la duración de vuelos -->
+<div class="modal fade" id="detailsDuracionModal" tabindex="-1" aria-labelledby="detailsDuracionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailsDuracionModalLabel">Detalles sobre la duración de vuelos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Clasificación de vuelos según duración:</p>
                 <ul>
                     <li><strong>Vuelos Cortos:</strong> Menos de 3 horas. Conectan ciudades cercanas, como vuelos domésticos o regionales. Ejemplo: Ciudad de México a Guadalajara.</li>
                     <li><strong>Vuelos Medios:</strong> Entre 3 y 6 horas. Conectan ciudades más distantes, a menudo vuelos internacionales cortos. Ejemplo: Los Ángeles a Nueva York.</li>
@@ -198,7 +272,6 @@
     </div>
 </div>
 
-
         <!-- Sección de resultados con fondo azul degradado -->
         <div class="row justify-content-center mt-4">
             <div class="col-md-8 col-lg-6 result-section">
@@ -207,6 +280,16 @@
             </div>
         </div>
     </div>
+    <!-- Sección de procedimeinto con fondo azul degradado -->
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8 col-lg-6 result-section">
+            <h3 class="text-center">Resultado:</h3>
+            <pre id="resultado"></pre>
+            <h4 class="text-center mt-4">Procedimiento:</h4>
+            <pre id="procedimiento"></pre>
+        </div>
+    </div>
+    
 
     <!-- Scripts de Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"

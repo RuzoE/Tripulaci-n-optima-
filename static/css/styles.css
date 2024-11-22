@@ -114,6 +114,12 @@
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.modal-custom-width {
+    max-width: 650px; /* O cualquier tamaño deseado */
+    margin: auto; /* Centra el modal horizontalmente */
+}
+
+
 .modal-header {
     border-bottom: 2px solid #007bff;
     padding-bottom: 10px;
