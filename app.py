@@ -46,17 +46,15 @@ def optimizar():
         vuelos_largos * (costo_piloto * pilotos_largo * duracion_largo + costo_cabina * cabina_largo * duracion_largo)
     )
 
-    # Ajuste de restricciones para valores positivos
-    if vuelos_cortos > 0:
-        problema += pilotos_corto >= 2
-        problema += cabina_corto >= 3
-    if vuelos_medios > 0:
-        problema += pilotos_medio >= 3
-        problema += cabina_medio >= 4
-    if vuelos_largos > 0:
-        problema += pilotos_largo >= 4
-        problema += cabina_largo >= 6
 
+    # Restricciones dinámicas basadas en los vuelos diarios
+    problema += pilotos_corto >= 2 * vuelos_cortos
+    problema += cabina_corto >= 3 * vuelos_cortos
+    problema += pilotos_medio >= 3 * vuelos_medios
+    problema += cabina_medio >= 4 * vuelos_medios
+    problema += pilotos_largo >= 4 * vuelos_largos
+    problema += cabina_largo >= 6 * vuelos_largos
+    
     # Resolver el problema
     problema.solve()
 
